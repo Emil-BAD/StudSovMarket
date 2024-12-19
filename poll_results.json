@@ -5,10 +5,11 @@
         "Adrenaline Rush": 2,
         "Flash": 1,
         "LitEnergy": 1,
-        "LitEnergy(Только новые)": 1,
-        "Burn": 1,
+        "LitEnergy(Только новые)": 0,
+        "Burn": 0,
         "Volt": 0,
-        "Drive": 1,
+        "Drive": 0,
         "Jaguar": 0
-    }
+    },
+    "total_voters": 2
 }

@@ -80,35 +80,26 @@ async def opros(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     completed_users.add(user_id)
 
-import json
-
-import json
-
 async def handle_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global poll_results, completed_users
     try:
         selected_options = set(update.poll_answer.option_ids)
-        user_id = update.poll_answer.user.id
 
         # Загружаем текущие результаты из JSON-файла
         try:
             with open("poll_results.json", "r", encoding="utf-8") as json_file:
                 data = json.load(json_file)
                 aggregated_results = data.get("results", {i: 0 for i in optionsDrink})
-                total_voters = data.get("total_voters", 0)
+                total_voters = len(completed_users)
         except (FileNotFoundError, json.JSONDecodeError):
             aggregated_results = {i: 0 for i in optionsDrink}
-            total_voters = 0
+            total_voters = 1
 
         # Обновляем данные только для новых пользователей
-        if user_id not in completed_users:
-            poll_results = {i: 0 for i in optionsDrink}
-            for option_id in selected_options:
-                poll_results[optionsDrink[option_id]] += 1
-                aggregated_results[optionsDrink[option_id]] += 1
-
-            completed_users.add(user_id)
-            total_voters += 1
+        poll_results = {i: 0 for i in optionsDrink}
+        for option_id in selected_options:
+            poll_results[optionsDrink[option_id]] += 1
+            aggregated_results[optionsDrink[option_id]] += 1
 
         logging.info(f"Обновленные результаты {poll_results}")
 
@@ -144,10 +135,10 @@ async def send_statistics(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     # Формируем сообщение со статистикой
-    stats_message = "\ud83d\udcca <b>Статистика опросов:</b>\n"
+    stats_message = "<b>Статистика опросов:</b>\n"
     stats_message += f"Кол-во проголосовавших: {total_voters} \n"
     for poll_name, votes in aggregated_results.items():
-        stats_message += f"Вариант {poll_name}: {100 * (float(votes)/float(total_voters)) if total_voters != 0 and votes != 0 else 0}% голосов\n"
+        stats_message += f"Вариант {poll_name}: {100 * (float(votes)/float(len(completed_users))) if len(completed_users) != 0 and votes != 0 else 0}% голосов\n"
 
     await update.message.reply_text(stats_message, parse_mode="HTML")
 
