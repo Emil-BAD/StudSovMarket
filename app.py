@@ -89,6 +89,17 @@ async def handle_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE)
         for option_id in selected_options:
             poll_results[optionsDrink[option_id]] += 1
         logging.info(f"Обновленные результаты {poll_results}")
+
+        # Обновляем JSON-файл
+        data = {
+            "results": poll_results
+        }
+
+        try:
+            with open("poll_results.json", "w", encoding="utf-8") as json_file:
+                json.dump(data, json_file, ensure_ascii=False, indent=4)
+        except Exception as e:
+            logging.error(f"Ошибка при сохранении данных: {str(e)}")
     except AttributeError:
         logging.error("Ошибка при обработке ответа на опрос")
 
