@@ -80,19 +80,42 @@ async def opros(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     completed_users.add(user_id)
 
+import json
+
+import json
+
 async def handle_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    global poll_results
+    global poll_results, completed_users
     try:
         selected_options = set(update.poll_answer.option_ids)
-        poll_results = {i: 0 for i in optionsDrink}
-        print(poll_results)
-        for option_id in selected_options:
-            poll_results[optionsDrink[option_id]] += 1
+        user_id = update.poll_answer.user.id
+
+        # Загружаем текущие результаты из JSON-файла
+        try:
+            with open("poll_results.json", "r", encoding="utf-8") as json_file:
+                data = json.load(json_file)
+                aggregated_results = data.get("results", {i: 0 for i in optionsDrink})
+                total_voters = data.get("total_voters", 0)
+        except (FileNotFoundError, json.JSONDecodeError):
+            aggregated_results = {i: 0 for i in optionsDrink}
+            total_voters = 0
+
+        # Обновляем данные только для новых пользователей
+        if user_id not in completed_users:
+            poll_results = {i: 0 for i in optionsDrink}
+            for option_id in selected_options:
+                poll_results[optionsDrink[option_id]] += 1
+                aggregated_results[optionsDrink[option_id]] += 1
+
+            completed_users.add(user_id)
+            total_voters += 1
+
         logging.info(f"Обновленные результаты {poll_results}")
 
-        # Обновляем JSON-файл
+        # Сохраняем обновленные результаты в JSON-файл
         data = {
-            "results": poll_results
+            "results": aggregated_results,
+            "total_voters": total_voters
         }
 
         try:
@@ -103,24 +126,30 @@ async def handle_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE)
     except AttributeError:
         logging.error("Ошибка при обработке ответа на опрос")
 
-
 async def send_statistics(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global poll_results
+
     if update.effective_user.id not in ADMIN_ID:
         await update.message.reply_text("У вас нет прав для просмотра статистики.")
         return
-    print(poll_results)
-    if not poll_results:
+
+    # Загружаем данные из JSON-файла
+    try:
+        with open("poll_results.json", "r", encoding="utf-8") as json_file:
+            data = json.load(json_file)
+            aggregated_results = data.get("results", {})
+            total_voters = data.get("total_voters", 0)
+    except (FileNotFoundError, json.JSONDecodeError):
         await update.message.reply_text("На данный момент нет результатов для отображения.")
         return
 
-    stats_message = "📊 <b>Статистика опросов:</b>\n"
-    stats_message += f"Кол-во проголосовавших: {len(completed_users)} \n"
-    for poll_name, votes in poll_results.items():
-        stats_message += f"Вариант {poll_name}: {100 * (float(votes)/float(len(completed_users))) if len(completed_users) != 0 and votes != 0 else 0}% голосов\n"
-    
-    await update.message.reply_text(stats_message, parse_mode="HTML")
+    # Формируем сообщение со статистикой
+    stats_message = "\ud83d\udcca <b>Статистика опросов:</b>\n"
+    stats_message += f"Кол-во проголосовавших: {total_voters} \n"
+    for poll_name, votes in aggregated_results.items():
+        stats_message += f"Вариант {poll_name}: {100 * (float(votes)/float(total_voters)) if total_voters != 0 and votes != 0 else 0}% голосов\n"
 
+    await update.message.reply_text(stats_message, parse_mode="HTML")
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(TOKEN).build()
