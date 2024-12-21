@@ -90,7 +90,7 @@ async def handle_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE)
             with open("poll_results.json", "r", encoding="utf-8") as json_file:
                 data = json.load(json_file)
                 aggregated_results = data.get("results", {i: 0 for i in optionsDrink})
-                total_voters = len(completed_users)
+                total_voters = data.get("total_voters") + 1
         except (FileNotFoundError, json.JSONDecodeError):
             aggregated_results = {i: 0 for i in optionsDrink}
             total_voters = 1
@@ -138,7 +138,7 @@ async def send_statistics(update: Update, context: ContextTypes.DEFAULT_TYPE):
     stats_message = "<b>Статистика опросов:</b>\n"
     stats_message += f"Кол-во проголосовавших: {total_voters} \n"
     for poll_name, votes in aggregated_results.items():
-        stats_message += f"Вариант {poll_name}: {100 * (float(votes)/float(len(completed_users))) if len(completed_users) != 0 and votes != 0 else 0}% голосов\n"
+        stats_message += f"Вариант {poll_name}: {100 * (float(votes)/float(total_voters)) if total_voters != 0 and votes != 0 else 0}% голосов\n"
 
     await update.message.reply_text(stats_message, parse_mode="HTML")
 

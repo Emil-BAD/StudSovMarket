@@ -1,15 +1,15 @@
 {
     "results": {
-        "Red Bull": 1,
-        "Gorilla": 1,
-        "Adrenaline Rush": 2,
-        "Flash": 1,
-        "LitEnergy": 1,
-        "LitEnergy(Только новые)": 0,
-        "Burn": 0,
-        "Volt": 0,
-        "Drive": 0,
-        "Jaguar": 0
+        "Red Bull": 10,
+        "Gorilla": 9,
+        "Adrenaline Rush": 20,
+        "Flash": 20,
+        "LitEnergy": 15,
+        "LitEnergy(Только новые)": 7,
+        "Burn": 17,
+        "Volt": 18,
+        "Drive": 9,
+        "Jaguar": 4
     },
-    "total_voters": 2
+    "total_voters": 46
 }
