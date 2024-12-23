@@ -1,0 +1,105 @@
+{
+    "drinks": {
+        "ADRENALINE": {
+            "flavors": {
+                "ADRENALINE RUSH": {
+                    "quantity": 0,
+                    "price": 150,
+                    "image_url": "https://imgur.com/kw7YzLA"
+                },
+                "EXTRA": {
+                    "quantity": 0,
+                    "price": 160,
+                    "image_url": "https://example.com/adrenaline_extra.jpg"
+                },
+                "GAME FUEL": {
+                    "quantity": 0,
+                    "price": 170,
+                    "image_url": "https://example.com/adrenaline_game_fuel.jpg"
+                },
+                "Zero Sugar": {
+                    "quantity": 0,
+                    "price": 140,
+                    "image_url": "https://example.com/adrenaline_zero_sugar.jpg"
+                }
+            }
+        },
+        "Flash UP": {
+            "flavors": {
+                "original": {
+                    "quantity": 0,
+                    "price": 120,
+                    "image_url": "https://example.com/flash_original.jpg"
+                },
+                "berry mix": {
+                    "quantity": 0,
+                    "price": 125,
+                    "image_url": "https://example.com/flash_berry_mix.jpg"
+                },
+                "bubble gum": {
+                    "quantity": 0,
+                    "price": 130,
+                    "image_url": "https://example.com/flash_bubble_gum.jpg"
+                },
+                "Mango Pineapple": {
+                    "quantity": 0,
+                    "price": 135,
+                    "image_url": "https://example.com/flash_mango_pineapple.jpg"
+                },
+                "lime mint": {
+                    "quantity": 3,
+                    "price": 100,
+                    "image_url": "https://imgur.com/EH234V3"
+                },
+                "ultra": {
+                    "quantity": 0,
+                    "price": 140,
+                    "image_url": "https://example.com/flash_ultra.jpg"
+                }
+            }
+        },
+        "VOLT": {
+            "flavors": {
+                "Голубика-Гранат": {
+                    "quantity": 9,
+                    "price": 110,
+                    "image_url": "https://imgur.com/UzRrVH7"
+                },
+                "Апельсин-Маракуйя": {
+                    "quantity": 0,
+                    "price": 135,
+                    "image_url": "https://example.com/volt_orange_passionfruit.jpg"
+                },
+                "Лайм": {
+                    "quantity": 0,
+                    "price": 125,
+                    "image_url": "https://example.com/volt_lime.jpg"
+                },
+                "Оригинальный": {
+                    "quantity": 0,
+                    "price": 120,
+                    "image_url": "https://example.com/volt_original.jpg"
+                }
+            }
+        },
+        "Gorilla": {
+            "flavors": {
+                "Оригинал": {
+                    "quantity": 0,
+                    "price": 140,
+                    "image_url": "https://imgur.com/BJkeRyM"
+                },
+                "ultimate": {
+                    "quantity": 0,
+                    "price": 145,
+                    "image_url": "https://example.com/gorilla_ultimate.jpg"
+                },
+                "Личи - груша": {
+                    "quantity": 0,
+                    "price": 150,
+                    "image_url": "https://example.com/gorilla_lychee_pear.jpg"
+                }
+            }
+        }
+    }
+}
